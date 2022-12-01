@@ -1,0 +1,9 @@
+version: '3.7'
+
+services:
+  pocketbase:
+    image: rawestmoreland/habit-pocketbase:latest
+    ports:
+      - '8090:5000'
+    volumes:
+      - ./data:/pb_data
