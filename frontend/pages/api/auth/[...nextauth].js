@@ -30,6 +30,9 @@ export const authOptions = {
       },
     }),
   ],
+  pages: {
+    signIn: '/login',
+  },
   callbacks: {
     async session({ session, token }) {
       // Send properties to the client, like an access_token from a provider.

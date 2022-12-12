@@ -7,16 +7,26 @@ import { getToken } from 'next-auth/jwt';
  */
 export default async function handler(req, res) {
   try {
-    const { jwt } = await getToken({ req });
+    const accessToken = await getToken({ req });
     const newURL = req.url.replace('/api/pocketbase', '');
     const response = await fetch(`${process.env.PB_URL}/api${newURL}`, {
       ...(req.method && { method: req.method }),
       headers: {
-        Authorization: `Bearer: ${jwt}`,
+        ...(accessToken && { Authorization: `Bearer ${accessToken.jwt}` }),
         'content-type': 'application/json',
       },
       ...(req.body && { body: JSON.stringify(req.body) }),
     });
+    if (newURL.includes('users') && response.status < 300) {
+      await fetch(
+        `${process.env.PB_URL}/api/collections/users/request-verification`,
+        {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ email: req.body.email }),
+        }
+      );
+    }
     res.status(response.status || 200).json({ status: 'success' });
   } catch (error) {
     res.status(error.status || 500).json({

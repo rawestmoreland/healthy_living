@@ -9,6 +9,8 @@ import { authOptions } from './api/auth/[...nextauth]';
 export default function Home({ tasks, taskLogs }) {
   const { data: session, status } = useSession();
 
+  if (status === 'loading') return <div></div>;
+
   if (status !== 'loading' && !session) signIn();
 
   return (

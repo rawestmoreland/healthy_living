@@ -31,12 +31,14 @@ export default function SidebarDesktop({ navigation, user }) {
               <Menu.Button className="group w-full rounded-md bg-gray-100 px-3.5 py-2 text-left text-sm font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-100">
                 <span className="flex w-full items-center justify-between">
                   <span className="flex min-w-0 items-center justify-between space-x-3">
-                    <Image
-                      alt=""
-                      src={getPocketbaseMedia(user.id, user.avatar)}
-                      height={40}
-                      width={40}
-                    />
+                    {user.avatar && (
+                      <Image
+                        alt=""
+                        src={getPocketbaseMedia(user.id, user.avatar)}
+                        height={40}
+                        width={40}
+                      />
+                    )}
                     <span className="flex min-w-0 flex-1 flex-col">
                       <span className="truncate text-sm font-medium text-gray-900">
                         {user.name}
@@ -140,14 +142,6 @@ export default function SidebarDesktop({ navigation, user }) {
               );
             })}
           </div>
-          {!user && (
-            <button
-              className="border border-gray-500 bg-indigo-600 text-white rounded-md py-2 px-4 mt-4"
-              onClick={() => signIn()}
-            >
-              {'Sign In'}
-            </button>
-          )}
         </nav>
       </div>
     </div>
