@@ -3,6 +3,7 @@ import { Menu, Transition } from '@headlessui/react';
 import { Bars3CenterLeftIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import { getPocketbaseMedia } from '../services/media';
+import { signOut } from 'next-auth/react';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -27,12 +28,14 @@ export default function SearchHeader({ openSidebar, user }) {
               <div>
                 <Menu.Button className="flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
                   <span className="sr-only">Open user menu</span>
-                  <Image
-                    alt=""
-                    src={getPocketbaseMedia(user.id, user.avatar)}
-                    height={40}
-                    width={40}
-                  />
+                  {user.avatar && (
+                    <Image
+                      alt=""
+                      src={getPocketbaseMedia(user.id, user.avatar)}
+                      height={40}
+                      width={40}
+                    />
+                  )}
                 </Menu.Button>
               </div>
               <Transition
@@ -49,86 +52,7 @@ export default function SearchHeader({ openSidebar, user }) {
                     <Menu.Item>
                       {({ active }) => (
                         <a
-                          href="#"
-                          className={classNames(
-                            active
-                              ? 'bg-gray-100 text-gray-900'
-                              : 'text-gray-700',
-                            'block px-4 py-2 text-sm'
-                          )}
-                        >
-                          View profile
-                        </a>
-                      )}
-                    </Menu.Item>
-                    <Menu.Item>
-                      {({ active }) => (
-                        <a
-                          href="#"
-                          className={classNames(
-                            active
-                              ? 'bg-gray-100 text-gray-900'
-                              : 'text-gray-700',
-                            'block px-4 py-2 text-sm'
-                          )}
-                        >
-                          Settings
-                        </a>
-                      )}
-                    </Menu.Item>
-                    <Menu.Item>
-                      {({ active }) => (
-                        <a
-                          href="#"
-                          className={classNames(
-                            active
-                              ? 'bg-gray-100 text-gray-900'
-                              : 'text-gray-700',
-                            'block px-4 py-2 text-sm'
-                          )}
-                        >
-                          Notifications
-                        </a>
-                      )}
-                    </Menu.Item>
-                  </div>
-                  <div className="py-1">
-                    <Menu.Item>
-                      {({ active }) => (
-                        <a
-                          href="#"
-                          className={classNames(
-                            active
-                              ? 'bg-gray-100 text-gray-900'
-                              : 'text-gray-700',
-                            'block px-4 py-2 text-sm'
-                          )}
-                        >
-                          Get desktop app
-                        </a>
-                      )}
-                    </Menu.Item>
-                    <Menu.Item>
-                      {({ active }) => (
-                        <a
-                          href="#"
-                          className={classNames(
-                            active
-                              ? 'bg-gray-100 text-gray-900'
-                              : 'text-gray-700',
-                            'block px-4 py-2 text-sm'
-                          )}
-                        >
-                          Support
-                        </a>
-                      )}
-                    </Menu.Item>
-                  </div>
-                  <div className="py-1">
-                    <Menu.Item>
-                      {({ active }) => (
-                        <a
-                          href="#"
+                          onClick={() => signOut()}
                           className={classNames(
                             active
                               ? 'bg-gray-100 text-gray-900'
