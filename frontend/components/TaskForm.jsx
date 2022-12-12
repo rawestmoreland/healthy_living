@@ -24,6 +24,8 @@ export default function TaskForm({ tasks, taskLogs, user }) {
       newTasks.splice(index, 1);
     }
 
+    let newLog = null;
+
     // Create a log entry if there's not one for this day
     if (!logs[0]?.id) {
       await fetch(`/api/pocketbase/collections/task_logs/records`, {
@@ -37,10 +39,21 @@ export default function TaskForm({ tasks, taskLogs, user }) {
           tasks: [],
         }),
       });
+      const response = await fetch(
+        `/api/pocketbase/collections/task_logs/records`
+      );
+
+      const responseData = await response.json();
+
+      console.log(responseData);
+
+      newLog = responseData.data.items[0];
     }
 
     const response = await fetch(
-      `/api/pocketbase/collections/task_logs/records/${logs[0].id}`,
+      `/api/pocketbase/collections/task_logs/records/${
+        logs[0]?.id || newLog.id
+      }`,
       {
         method: 'PATCH',
         headers: {
@@ -57,6 +70,7 @@ export default function TaskForm({ tasks, taskLogs, user }) {
       setSubmitting(false);
       router.replace(router.asPath);
     }
+    setSubmitting(false);
   };
   return (
     <div className="mx-8 mt-16 w-full max-w-lg">

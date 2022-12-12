@@ -17,6 +17,7 @@ export default async function handler(req, res) {
       },
       ...(req.body && { body: JSON.stringify(req.body) }),
     });
+    const responseData = await response.json();
     if (newURL.includes('users') && response.status < 300) {
       await fetch(
         `${process.env.PB_URL}/api/collections/users/request-verification`,
@@ -27,7 +28,9 @@ export default async function handler(req, res) {
         }
       );
     }
-    res.status(response.status || 200).json({ status: 'success' });
+    res
+      .status(response.status || 200)
+      .json({ status: 'success', data: responseData });
   } catch (error) {
     res.status(error.status || 500).json({
       code: error.code,
