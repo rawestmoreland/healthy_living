@@ -1,0 +1,9 @@
+{
+  "files.associations": {
+    ".env.local": "env"
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "eslint.workingDirectories": ["frontend", "backend"],
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "modifications"
+}
