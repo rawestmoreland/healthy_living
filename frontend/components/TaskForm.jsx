@@ -15,7 +15,7 @@ export default function TaskForm({ tasks, taskLogs, user }) {
   const onUpdateTask = async (event) => {
     event.preventDefault();
     setSubmitting(true);
-    const newTasks = logs[0].tasks;
+    const newTasks = logs[0]?.tasks || [];
     const taskId = event.target.name;
     const index = newTasks.findIndex((task) => taskId === task);
     if (index === -1) {
