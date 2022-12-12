@@ -23,6 +23,22 @@ export default function TaskForm({ tasks, taskLogs, user }) {
     } else {
       newTasks.splice(index, 1);
     }
+
+    // Create a log entry if there's not one for this day
+    if (!logs[0]?.id) {
+      await fetch(`/api/pocketbase/collections/task_logs/records`, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          user: user.id,
+          date: dayjs(selectedDay).format('YYYY-MM-DD'),
+          tasks: [],
+        }),
+      });
+    }
+
     const response = await fetch(
       `/api/pocketbase/collections/task_logs/records/${logs[0].id}`,
       {
