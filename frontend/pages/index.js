@@ -1,7 +1,5 @@
 import { signIn, useSession } from 'next-auth/react';
 
-import Pocketbase from 'pocketbase';
-
 import Layout from '../components/Layout';
 import Calendar from '../components/Calendar';
 import TaskForm from '../components/TaskForm';
@@ -22,8 +20,7 @@ export default function Home({ tasks, taskLogs }) {
 }
 
 export async function getServerSideProps(context) {
-  const pb = new Pocketbase(process.env.PB_URL);
-  const { jwt: accessToken } = await unstable_getServerSession(
+  const accessToken = await unstable_getServerSession(
     context.req,
     context.res,
     authOptions
@@ -34,7 +31,7 @@ export async function getServerSideProps(context) {
   const taskLogs = await fetch(
     `${process.env.PB_URL}/api/collections/task_logs/records?expand=tasks`,
     {
-      headers: { Authorization: `Bearer ${accessToken}` },
+      headers: { Authorization: `Bearer ${accessToken?.jwt}` },
     }
   ).then((res) => res.json());
   return { props: { tasks, taskLogs } };
