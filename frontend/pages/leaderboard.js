@@ -11,7 +11,9 @@ export default function Page({ leaderboard }) {
         <h1 className="text-3xl">Leaderboard</h1>
         <ol>
           {leaderboard.map((person) => (
-            <li className="text-center">{person.name}</li>
+            <li className="text-center">
+              {person.name} - <strong>{person.score}</strong>
+            </li>
           ))}
         </ol>
       </div>
