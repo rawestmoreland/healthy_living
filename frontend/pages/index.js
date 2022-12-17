@@ -27,6 +27,7 @@ export async function getServerSideProps(context) {
     context.res,
     authOptions
   );
+  if (!session) return { props: {} };
   const tasks = await fetch(
     `${process.env.PB_URL}/api/collections/tasks/records`
   ).then((res) => res.json());
