@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import DateContext from '../contexts/DateContext';
 
@@ -30,7 +29,7 @@ export default function TaskForm({ tasks, user }) {
 
   const onUpdateTask = async (event) => {
     setSubmitting(true);
-
+    console.log(dayLog);
     let newLog = [];
 
     if (!dayLog) {
@@ -38,8 +37,8 @@ export default function TaskForm({ tasks, user }) {
     } else newLog = dayLog;
 
     let newTasks = newLog.tasks;
-
-    const index = newLog.tasks.indexOf((task) => task === event.target.name);
+    const index = newLog.tasks.findIndex((task) => task === event.target.name);
+    console.log({ index });
     if (index === -1) {
       newTasks.push(event.target.name);
     } else {
@@ -81,8 +80,8 @@ export default function TaskForm({ tasks, user }) {
         });
     }
     getDayLog();
-  }, []);
-
+    console.log('butts');
+  }, [selectedDay]);
   return (
     <div className="mx-8 md:mt-16 mt-8 w-full max-w-lg">
       <h2 className="text-lg font-bold">

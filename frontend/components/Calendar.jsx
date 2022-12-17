@@ -101,7 +101,7 @@ export default function Calendar({ user, taskLogs }) {
       )
     ) {
       const response = await fetch(
-        `/api/pocketbase/collections/task_logs/records`,
+        `/api/pocketbase/collections/task_logs/records?filter=(user='${user.id}')`,
         {
           method: 'POST',
           headers: {
