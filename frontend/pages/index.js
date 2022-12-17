@@ -22,7 +22,7 @@ export default function Home({ tasks, taskLogs }) {
 }
 
 export async function getServerSideProps(context) {
-  const accessToken = await unstable_getServerSession(
+  const session = await unstable_getServerSession(
     context.req,
     context.res,
     authOptions
@@ -31,9 +31,9 @@ export async function getServerSideProps(context) {
     `${process.env.PB_URL}/api/collections/tasks/records`
   ).then((res) => res.json());
   const taskLogs = await fetch(
-    `${process.env.PB_URL}/api/collections/task_logs/records?expand=tasks`,
+    `${process.env.PB_URL}/api/collections/task_logs/records?expand=tasks&filter=(user='${session.user.id}')`,
     {
-      headers: { Authorization: `Bearer ${accessToken?.jwt}` },
+      headers: { Authorization: `Bearer ${session?.jwt}` },
     }
   ).then((res) => res.json());
   return { props: { tasks, taskLogs } };

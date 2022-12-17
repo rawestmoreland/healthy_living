@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   images: {
     domains: [
       '1a5cd591b637a88f61a74d153d44ed7f.r2.cloudflarestorage.com',

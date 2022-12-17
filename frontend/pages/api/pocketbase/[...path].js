@@ -18,7 +18,11 @@ export default async function handler(req, res) {
       ...(req.body && { body: JSON.stringify(req.body) }),
     });
     const responseData = await response.json();
-    if (newURL.includes('users') && response.status < 300) {
+    if (
+      newURL.includes('users') &&
+      response.status < 300 &&
+      req.method === 'POST'
+    ) {
       await fetch(
         `${process.env.PB_URL}/api/collections/users/request-verification`,
         {
